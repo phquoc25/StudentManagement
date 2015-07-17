@@ -1,12 +1,11 @@
 package com.qph.dao;
 
 import com.qph.model.Student;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by Quoc on 7/7/2015.
@@ -27,5 +26,16 @@ public class StudentDaoImpl implements IStudentDao{
         returnId = student.getStudentId();
         transaction.commit();
         return returnId;
+    }
+
+    @Override
+    public Student searchByID(int studentId) {
+        Session currentSession;
+        currentSession = sessionFactory.getCurrentSession();
+        currentSession.beginTransaction();
+        Query query = currentSession.createQuery("from Student where studentId = :studentId");
+        query.setParameter("studentId", studentId);
+        List<Student> studentList = query.list();
+        return studentList.get(0);
     }
 }

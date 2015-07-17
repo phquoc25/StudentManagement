@@ -8,4 +8,6 @@ import com.qph.model.Student;
 public interface IStudentDao {
 
     int add(Student student);
+
+    Student searchByID(int studentId);
 }
